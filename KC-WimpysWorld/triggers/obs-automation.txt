@@ -37,11 +37,11 @@ OnOBSTransitionTo "Intro"
 
 OnOBSTransitionTo "Outro"
     OBS Source "2 Mic" Filter "Mute Audio" on
-    If 1 {from} = "Ending"
+    If {from} = "Ending"
         Chat Send "Thank you all for coming 🙇 I'll see you next time 👍"
 
 OnOBSTransitionTo *
-    If 1 {from} = "Outro"
+    If {from} = "Outro"
         OBS Source "2 Mic" Filter "Mute Audio" off
 
 OnOBSStreamStopped
