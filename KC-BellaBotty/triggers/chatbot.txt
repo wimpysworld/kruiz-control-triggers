@@ -81,7 +81,7 @@ OnCommand e 0 !floss
         Random Number 90 100
     Chat Send "{user} is built from {number}% open source 💾"
     Delay 23
-    Chat Send "I am built built entirely from open source 🦾"
+    Chat Send "I am built entirely from open source 🦾 https://github.com/wimpysworld/kruiz-control-triggers"
 
 OnCommand e 10 !followage !howlong !followtime
     API Get https://decapi.me/twitch/followage/wimpysworld/{user}
