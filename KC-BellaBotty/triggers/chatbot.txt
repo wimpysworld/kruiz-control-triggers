@@ -1,0 +1,684 @@
+# b - Broadcaster
+# s - Subscriber
+# f - Follower
+# o - Founder
+# v - VIP
+# m - Moderator
+# n - Check if a user has none of the permissions above.
+# e - Everyone
+
+# TODO
+#  - Play a clip from raiders
+
+OnInit
+    Variable Set FirstUser " "
+    Variable Set FirstMessage " "
+    Variable Set "TwitchID" "WimpysWorld"
+    Variable Set "TwitchBot" "BellaBotty"
+    Variable Set MessageCount 0
+    Message Send CreateChatTimers
+    Timer Start ChatTimers
+
+OnOBSStreamStarted
+    Variable Load FirstUser
+    Variable Load FirstMessage
+    Variable Load MessageCount
+    Variable Set FirstUser " "
+    Variable Set FirstMessage " "
+    Variable Set MessageCount 0
+
+OnEveryChatMessage
+    # Ignore the broadcast and their bot from !first and chat activity.
+    Variable Load TwitchID
+    Variable Load TwitchBot
+    # Ignore broadcasters and bots
+    If 1 "{user}" = "{TwitchID}" or "{user}" = "{TwitchBot}"
+        Exit
+    # Ignore commands
+    Function 'return {is_command: [message].trim().startsWith("!")}'
+    If 1 {is_command} = "true"
+        Exit
+    # Increment the chat message counter
+    Variable Load MessageCount
+    Param Add MessageCount 1
+    Variable Set MessageCount {MessageCount}
+    # Who is first?
+    Variable Load FirstUser
+    Variable Load FirstMessage
+    If 1 {FirstUser} != " "
+        Exit
+    Variable Set FirstUser {user}
+    Variable Set FirstMessage {message}
+
+OnCommand e 10 !first
+    Variable Load FirstUser
+    Variable Load FirstMessage
+    if 2 {user} = {FirstUser}
+        Chat Send "You did it {user} 🏆 You were first 🥇 to talk in chat today!"
+        Exit
+    if 2 {FirstUser} != " "
+        Chat Send "Nope {user}! You were too slow off the mark 🐢 {FirstUser} was first in chat today 🏆 and they said this: {FirstMessage}"
+        Exit
+
+## Interactive
+
+OnCommand e 10 !accountage
+    API Get "https://decapi.me/twitch/accountage/{user}"
+    Variable Set accountage {api_data}
+    Chat Send "{user} was created {accountage} ago."
+
+OnCommand e 120 !chelsea-cucumber !chelseacucumber !mate
+    Chat Send "Chelsea Cucumber 🥒 is the colour of our banner! #87A556 is the primary accent colour for the premiere Linux 🐧 distribution, Ubuntu MATE 🧉 - https://ubuntu-mate.org"
+    Delay 7
+    Chat Send "Hmmm, the color of my banner is #F917A7"
+
+#OnCommand e 120 !theme
+#    Chat Send "Wimpy uses the Yaru MATE theme of course! Derived from the fine Yaru theme 🎨  for Ubuntu, which is better than a Burrito 🌯 https://github.com/ubuntu/yaru"
+
+OnCommand e 0 !floss
+    Random Number 1 100
+    if 1 {user} = "WimpysWorld"
+        Random Number 90 100
+    Chat Send "{user} is built from {number}% open source 💾"
+    Delay 23
+    Chat Send "I am built built entirely from open source 🦾"
+
+OnCommand e 10 !followage !howlong !followtime
+    API Get https://decapi.me/twitch/followage/wimpysworld/{user}
+    Chat Send "{user} has been following Wimpy's World for {api_data}. I know, we should send help 🚑"
+
+OnCommand e 300 !followers
+    Variable Load TwitchFollowCount
+    Chat Send "There are currently {TwitchFollowCount} followers 🙇 Validate Wimpy's existence and follow him."
+
+OnCommand e 300 !viewercount !viewers
+    Variable Load TwitchViewerCount
+    Chat Send "Right now there are {TwitchViewerCount} viewers watching this stream 👀 Tell your friends and lovers to come and join us 😘"
+
+OnCommand e 300 !totalviews !allviews
+    Variable Load TwitchTotalViews
+    Chat Send "This channel has had {TwitchTotalViews} total views 📈 I know, it's a pointless vanity metric 💄"
+
+OnCommand e 120 !os !distro
+    Chat Send "Wimpy runs the mighty 💪 Ubuntu MATE! A community-developed, Ubuntu-based operating system that beautifully integrates the MATE desktop 🧉 https://ubuntu-mate.org"
+    Delay 6
+    Chat Send "I run NixOS ❄ BTW"
+
+OnCommand e 120 !job !newjob
+    Chat Send "Wimpy works at Determinate Systems as Developer Relations Engineer 🧑‍💻 and is helping make Nix easier ❄ https://determinate.systems"
+
+OnCommand e 15 !quote !techquote !tech-quote
+    API Get "https://api.quotable.io/random?tags=technology"
+    Function 'return {content: [api_data].content, author: [api_data].author}'
+    Chat Send "Allegedly {author} once said '{content}' 🤔 It must be true because an AI 🤖🧠 on the Internet told me 🤥"
+
+OnCommand bsfovm 10 !shoutout !so
+    Param Replace after @ ''
+    Variable Set so_name {after}
+    API Get https://decapi.me/twitch/game/{so_name}
+    Variable Set so_game {api_data}
+    API Get https://decapi.me/twitch/avatar/{so_name}
+    Variable Set so_avatar {api_data}
+    if 7 {so_game} != ""
+        API Get https://decapi.me/twitch/videos/{so_name}
+        Variable Set so_video {api_data}
+        If 2 {so_video} != ""
+            Chat Send "Hey, look! It's {so_name} 👀 You can find them at https://twitch.tv/{so_name} where they were last streaming {so_video}"
+            Exit
+        Chat Send "Hey, look! It's {so_name} 👀 You can find them at https://twitch.tv/{so_name} where they were last streaming {so_game} 📡"
+        Exit
+    Chat Send "Hey, look! It's {so_name} 👀 You can find them at https://twitch.tv/{so_name} 📡"
+    Twitch Shoutout {so_name}
+
+OnCommand e 120 !game !stream !sup !waddup !wtfisgoingon
+    Variable Load TwitchTitle
+    Variable Load TwitchGame
+    Variable Load TwitchViewerCount
+    if 2 {TwitchGame} = "Software and Game Development"
+        Chat Send "Wimpy is struggling with some {TwitchGame}. Thankfully {TwitchViewerCount} experts 🤓 are here to help ⛑ Specifically, we're having a go at {TwitchTitle}"
+        Exit
+    if 2 {TwitchGame} = "Retro"
+        Chat Send "Wimpy is reliving his misspent youth 👶 and demonstrating how reaction times diminish as you age by badly playing 🕹 {TwitchGame} in front of {TwitchViewerCount} bewildered 😕 onlookers. We call this madness {TwitchTitle}"
+        Exit
+    Chat Send "Wimpy is playing {TwitchGame} badly 🎮 in front of {TwitchViewerCount} members of our international all-star cast of cabaret artists 💃🕺 We're calling this disaster {TwitchTitle}"
+
+OnCommand e 300 !subs !sub !prime !freesub
+    Variable Load TwitchSubCount
+    Variable Load TwitchSubEmotes
+    OBS SceneSource "[O] Alerts" "CTA Prime" on
+    Chat Send "This channel currently has {TwitchSubCount} subscribers 🫶 Click here to sub 👉 https://www.twitch.tv/subs/WimpysWorld/"
+    Delay 6
+    OBS SceneSource "[O] Alerts" "CTA Prime" off
+    Chat Send "Use your Amazon Prime free sub 🤑 to get this stream advert free and access to these fugly emotes {TwitchSubEmotes}"
+
+OnCommand e 120 !uptime
+    Variable Load TwitchUptime
+    Chat Send "Wimpy has been at this nonsense for {TwitchUptime} 🤦"
+
+OnCommand e 300 !latestvideo !latest
+    Variable Load TwitchVideos
+    Variable Load YouTubeLatestVideo
+    Chat Send "Wimpy's most recent public humiliation on YouTube is {YouTubeLatestVideo} and from Twitch there is this travesty {TwitchVideos}"
+
+## Commands
+
+OnCommand e 180 !music !spotify !nowplaying !playing !song !beats !streambeats
+    OBS SceneSource "[O] Stats" "Now Playing" on
+    Delay 10
+    Chat Send "All the music 🎶 we play is from StreamBeats https://streambeats.com"
+    Delay 10
+    OBS SceneSource "[O] Stats" "Now Playing" off
+
+OnCommand e 300 !twitchstats !chatstats !stats
+    Variable Load TwitchFollowCount
+    Variable Load TwitchSubCount
+    Variable Load TwitchTotalViews
+    Variable Load TwitchUptime
+    Variable Load TwitchViewerCount
+    Chat Send "Wimpy has been streaming for {TwitchUptime} minutes and we currently have {TwitchViewerCount} viewers. The channel has {TwitchFollowCount} followers, {TwitchSubCount} subscribers and has been viewed {TwitchTotalViews} times. You can get chat metrics here https://stats.streamelements.com/c/wimpysworld"
+
+## Projects
+
+OnCommand e 300 !deb-get !debget !get-deb !getdeb
+    Chat Send "apt-get functionality for .debs published in 3rd party repositories or via direct download 📦 https://github.com/wimpysworld/deb-get"
+
+OnCommand e 300 !quickemu !qemu
+    Chat Send "Quickly create and run optimised Windows 🪟 macOS 🍏 and Linux 🐧 virtual machines - https://github.com/quickemu-project"
+
+OnCommand e 300 !retro-home !retrohome
+    Chat Send "Your home for retro-gaming 🕹 https://github.com/wimpysworld/retro-home"
+
+OnCommand e 300 !ubuntu-mate !ubuntumate
+    Chat Send "A community-developed, Ubuntu-based operating system that beautifully integrates the MATE desktop 🧉 https://ubuntu-mate.org"
+
+OnCommand e 300 !obs !obs-studio !obs-studio-portable !obs-portable
+    Chat Send "OBS Studio Portable builds for Ubuntu. Over 50 plugins included 📡 https://github.com/wimpysworld/obs-studio-portable"
+
+OnCommand e 300 !podcast !linuxmatters !linux-matters
+    Chat Send "Wimpy is a co-host on the Linux Matters 🐧💬 podcast 🎙️ Three open-source professionals discuss how Linux impacts their daily lives and all the Linux Matters that matter! https://linuxmatters.sh"
+
+OnCommand e 300 !8bitversus !8bitvs !8bvs
+    Chat Send "Do you like a bit of retro 🕹️ gaming? Check out 8-Bit Versus, where @popeydc and @WimpysWorld go head to head on ZX Spectrum and C64 🥊 https://8bitversus.com"
+
+## Tools
+
+OnCommand e 300 !streamdeck !stream-deck !deck
+    Chat Send "Configuration tool for the StreamDeck 🎛 devices that works on Linux 🐧 https://github.com/muesli/deckmaster"
+
+OnCommand e 300 !kruizcontrol !kruiz-control !kruiz !kc
+    Chat Send "Automate OBS Studio, create chat bots, integrate with Twitch, StreamElements alerts and Discord all using pseudo code 🧑‍💻 https://github.com/Kruiser8/Kruiz-Control"
+
+## Socials
+
+OnCommand e 300 !discord
+    Chat Send "Join other Linux 🐧 enthusiasts in Wimpy's World Discord 💬 https://wimpysworld.io/discord"
+    OBS SceneSource "[O] Alerts" "CTA Discord" on
+    Delay 7
+    OBS SceneSource "[O] Alerts" "CTA Discord" off
+
+OnCommand e 300 !github !gh !code
+    Chat Send "Our projects are on GitHub 🐙 https://wimpysworld.io/github"
+
+OnCommand e 300 !instagram
+    Chat Send "Previews of upcoming projects on Instagram 📸 https://wimpysworld.io/instagram"
+    OBS SceneSource "[O] Alerts" "CTA Instagram" on
+    Delay 6
+    OBS SceneSource "[O] Alerts" "CTA Instagram" off
+
+OnCommand e 300 !insta
+    Chat Send "Behind the scenes previews on Instagram 📸 https://wimpysworld.io/instagram"
+    OBS SceneSource "[O] Alerts" "CTA Insta" on
+    Delay 6
+    OBS SceneSource "[O] Alerts" "CTA Insta" off
+
+OnCommand e 300 !kit !gear !setup !keyboard
+    Chat Send "Kit lists of the Linux 🐧 compatible gear Wimpy uses https://wimpysworld.io/kit"
+
+OnCommand e 300 !telegram !tg
+    Chat Send "Get go-live notifications 📡 and status updates via Telegram 📲 https://wimpysworld.io/telegram"
+
+OnCommand e 300 !twitch
+    Chat Send "Streams of live coding 🧑‍💻 for various projects on Twitch 📡 https://wimpysworld.io/twitch"
+    OBS SceneSource "[O] Alerts" "CTA Twitch" on
+    Delay 6
+    OBS SceneSource "[O] Alerts" "CTA Twitch" off
+
+OnCommand e 300 !twitter !tweet !spacekaren
+    Chat Send "Follow Wimpy on Twitter 🐦 https://wimpysworld.io/twitter"
+
+OnCommand e 300 !mastodon !masto !toot !melontusk
+    Chat Send "Follow Wimpy on Mastodon 🦣 https://wimpysworld.io/mastodon"
+
+OnCommand e 300 !youtube !yt
+    Chat Send "Subscribe to Wimpy's YouTube 📺 channel for Linux development and fun projects https://wimpysworld.io/youtube"
+    OBS SceneSource "[O] Alerts" "CTA YouTube" on
+    Delay 6
+    OBS SceneSource "[O] Alerts" "CTA YouTube" off
+    Variable Load YouTubeLatestVideo
+    Chat Send "Here's the most recent video on YouTube: {YouTubeLatestVideo}"
+
+OnCommand e 300 !website !socials !links
+    Chat Send "Here's Wimpy's website with a blog and links to stalk him in all the usual places 🎯 https://wimpysworld.com"
+
+OnCommand e 300 !schedule
+    Chat Send "The stream schedule is available here 🗓 https://www.twitch.tv/wimpysworld/schedule"
+
+OnCommand e 300 !giveaway !giveaways
+    Chat Send "You freeloader! There are no giveaways here {user} 🤣"
+
+OnCommand e 60 !commands !man !help
+    Chat Send "Remind @WimpysWorld that he needs to document the commands available here! 👿"
+
+OnCommand e 60 !rules
+    Chat Send "🤝 Be respectful ⛑ Be helpful 🤓 Be interesting 🤣 Be funny 🛠 Be creative 🙇 Be polite 🖖 Be excellent to each other ⛔ No spam"
+
+OnCommand e 10 !lurk
+    Chat Send "{user} thanks for letting me know you're quietly lurking in the channel 🤫"
+
+OnCommand e 120 !settings !specs
+    Chat Send "Everything is turned up to 11 🎛 That's how we roll around here {user} 💪"
+    Delay 3
+    Chat Send "@{user} you see the the Linux 🐧 compatible gear here 👉 https://wimpysworld.io/kit"
+
+OnCommand e 120 !8ball !8-ball
+    Chat Send "🎱 Wait for it {user}..."
+    Delay 90
+    Chat Send "Hey @{user} are you still waiting for the 8 Ball? I got bored and killed the process 🔪🩸 #sorry #notsorry"
+
+OnCommand e 120 !tip !donate
+    Chat Send "The tip jar is here 💰 https://wimpysworld.io/tip"
+
+OnCommand e 120 !obs
+    OBS Version
+    Variable Set WebsocketVersion {version}
+    OBS Stats
+    Chat Send "OK nerd 🤓 OBS Studio is running Websockets {WebsocketVersion} and using {cpu}% CPU, {memory}MB RAM with {disk_space}MB disk available. Currently rendering {fps} FPS with each frame taking an average of {average_render_time}ms to render 📊"
+
+OnCommand e 60 !botsnack
+    Play 100 nowait botsnack.mp3
+    Chat Send "Nom nom nom 🍪"
+    Delay 8
+    Chat Send "Have a hug {user} 🤗"
+
+OnCommand e 0 !badbot !badbella
+    Chat Send "Oh really⁉ 😲"
+    Random Number 15 45
+    Chat Send "Timeout for {user}! Go 👉️ and sit on the naughty step 😤 for {number} seconds ⏲"
+    Twitch Timeout {user} {number}
+
+# Chat Timers
+
+OnMessage CreateChatTimers
+    Variable Load TwitchFollowCount
+    Variable Load TwitchSubEmotes
+    List Add ChatTimers "Enjoying the stream? Hit that follow button to show your support and join {TwitchFollowCount} Linux 🐧 Lovers 💖"
+    List Add ChatTimers "Follow Wimpy on Mastodon 🦣 https://wimpysworld.io/mastodon"
+    List Add ChatTimers "Join Wimpy's World Discord 🗣️ for more Linux 🐧chat about development, desktop, gaming, streaming and making https://wimpysworld.io/discord"
+    List Add ChatTimers "Use your Amazon Prime free sub 🤑 to get this stream advert free and access to these fugly emotes {TwitchSubEmotes}"
+    List Add ChatTimers "Follow Wimpy on Twitter 🐦 https://wimpysworld.io/twitter"
+    List Add ChatTimers "Curious what Linux 🐧 compatible hardware Wimpy uses for streaming? Here's the kit list 📝 https://wimpysworld.io/kit"
+    List Add ChatTimers "Subscribe to Wimpy's YouTube 📺 channel for an archive of these live streams and other fun Linux 🐧 projects https://wimpysworld.io/youtube"
+    List Add ChatTimers "Get sneak 🕵 previews of upcoming projects on Wimpy's Instagram 📸 https://wimpysworld.io/instagram"
+    List Add ChatTimers "Follow Wimpy's World on GitHub 🐙 for all our projects https://wimpysworld.io/github"
+    List Add ChatTimers "Wimpys's blog and ways to get connected are on the website 🌍 https://wimpysworld.com"
+    #List Add ChatTimers "Get notified 📫 about new streams and videos via Telegram https://wimpysworld.io/telegram"
+
+# Post the timed chat every 15mins, but after 5mins start delay
+OnTimer ChatTimers 900 300
+    # If stream appears offline, do not spam chat
+    Variable Load TwitchUptime
+    If 1 {TwitchUptime} = 0
+        Exit
+    Variable Load MessageCount
+    # If chat is too quiet, do not spam chat
+    If 1 {MessageCount} < 10
+        Exit
+    Variable Set MessageCount 0
+    List Remove ChatTimers First
+    Chat Send {value}
+    List Count ChatTimers
+    If 1 {count} = 0
+        Message Send CreateChatTimers
+
+# Moderation
+
+# b - Broadcaster
+# s - Subscriber
+# f - Follower
+# o - Founder
+# v - VIP
+# m - Moderator
+# n - Check if a user has none of the permissions above.
+# e - Everyone
+
+OnSpeak *
+    API GET "https://decapi.me/twitch/creation/{user}?format=c&tz=UTC"
+    Function "const userDate = Date.parse([api_data]); const diff = (new Date().getTime() - userDate) / 3600000; return { hourDiff: Math.abs(Math.round(diff)) };"
+    if 3 hourDiff < 36
+        Function "return { timeout: (36 - {hourDiff}) * 3600 };"
+        Twitch Timeout {user} {timeout}
+        Chat Send "Don't take it personally {user}, your account is new 🐤 and has been automatically timed out ⏳ until your account matures a bit 🐔"
+
+OnCommand b 0 !offline
+    Twitch Title "Offline | There will be more Linux 🐧 chat, development 🧑‍💻 and gaming 🎮 soon. Check https://wimpysworld.com for details"
+
+OnCommand bm 0 !announce !announcement
+    Set Variable color "primary"
+    If 2 {arg1} = ""
+        Chat Send "{command} requires a message to announce 🤦"
+        Exit
+    Param Exists arg2
+    If 3 {exists} = true
+        If 2 {arg2} != "blue" and {arg2} != "green" and {arg2} != "orange" and {arg2} != "purple"
+            Chat Send "{command} can only accept blue, green, orange and purple as announcement colors 🤦"
+            Exit
+    Set Variable color {arg2}
+    Twitch Announcement "{arg1}" {color}
+
+OnCommand e 60 !color !colour
+    Param Exists arg1
+    If 3 {exists} = false
+        Chat Send "{command} requires a colour to set colourify 🌈 your user name in chat 🤦"
+        Chat Send "Your colour options include blue, blue_violet, cadet_blue, chocolate, coral, dodger_blue, firebrick, golden_rod, green, hot_pink, orange_red, red, sea_green, spring_green, yellow_green."
+        Exit
+    Twitch Color {arg1}
+
+OnCommand b 0 !shield !sheild !shields !sheilds !shieldsup !sheildsup
+    Chat Send "🛡️ Raising shields"
+    Twitch Shields on
+
+OnCommand b 0 !shieldoff !sheildoff !shieldsoff !sheildsoff !shieldsdown !sheildsdown !lowershields !lowersheilds
+    Chat Send "🛡️ Lowering shields
+    Twitch Shields off
+
+OnCommand b 0 !emoteonly !emotechat !emotemode
+    Chat Send "💩 Emote Only Chat enabled"
+    Twitch EmoteOnly
+
+OnCommand b 0 !emoteonlyoff !emotechatoff !emotemodeoff !emoteoff
+    Chat Send "💩 Emote Only Chat disabled"
+    Twitch EmoteOnlyOff
+
+OnCommand b 0 !followers !followersonly !followerchat
+    Chat Send "💖 Follower Only Chat enabled"
+    Twitch Followers
+
+OnCommand b 0 !followersoff !followersonlyoff !followerchatoff
+    Chat Send "💖 Follower Only Chat disabled"
+    Twitch FollowersOff
+
+OnCommand b 0 !slow !slowchat !slowmode
+    Chat Send "🐢 Slow Chat enabled"
+    Twitch Slow
+
+OnCommand b 0 !slowoff !slowchatoff !slowmodeoff
+    Chat Send "🐢 Slow Chat disabled"
+    Twitch SlowOff
+
+OnCommand b 0 !subscribers !subscribersonly !subscriberonly !submode !subchat !subonly !subsonly
+    Chat Send "🤑 Subscriber Only Chat enabled"
+    Twitch Subscribers
+
+OnCommand b 0 !subscribersoff !subscribersonlyoff !subscriberonlyoff !submodeoff !subchatoff !subonlyoff !subsonlyoff
+    Chat Send "🤑 Subscriber Only Chat disabled"
+    Twitch SubscribersOff
+
+OnCommand b 0 !uniquechat !r9k !r9kbeta !unique
+    Chat Send "🦄 Unique Chat enabled"
+    Twitch UniqueChat
+
+OnCommand b 0 !uniquechatoff !r9koff !r9kbetaoff !uniqueoff
+    Chat Send "🦄 Unique Chat disabled"
+    Twitch UniqueChatOff
+
+OnCommand bm 10 !clear
+    Twitch ClearChat
+
+OnCommand b 0 !title
+    If 2 {after} = ""
+        Chat Send "{command} requires something to set your channel title to 🤦"
+        Exit
+    Twitch Title "{after}"
+
+OnCommand b 0 !directory !category
+    If 2 {after} = ""
+        Chat Send "{command} requires a Directory/Category name 🤦"
+        Exit
+    Twitch Game {after}
+
+OnCommand b 0 !development
+    Twitch Game "Software and Game Development"
+
+OnCommand b 0 !retro
+    Twitch Game "Retro"
+
+OnCommand b 300 !commercial
+    Param Exists arg1
+    If 1 {exists} = "false"
+        Variable Set arg1 30
+    If 2 {arg1} != "30" and {arg1} != "60" and {arg1} != "90" and {arg1} != "120" and {arg1} != "150" and {arg1} != "180"
+        Chat Send "Commercials must be 30/60/90/120/150/180 seconds 🤦"
+        Exit
+    Chat Send "Running a {arg1} second commercial 🙈"
+    Twitch Commercial {arg1}
+
+OnCommand b 0 !marker !mark
+    If 2 {after} != ""
+        Twitch Marker {after}
+        Exit
+    Twitch Marker
+
+OnCommand b 0 !timeout
+    Param Exists arg1
+    If 2 {exists} = "false"
+        Chat Send "{command} requires a user to sit on the naughty step 🤦"
+        Exit
+    API GET "https://decapi.me/twitch/id/{arg1}"
+    If 2 {api_data} = "error"
+        Chat Send "{command} failed while using DecAPI to lookup the user ⚠"
+        Exit
+    Function 'return {not_found: [api_data].includes("User not found")}'
+    If 2 {not_found} = "true"
+        Chat Send "{command} could not find the user {arg1} 🥷"
+        Exit
+    Param Exists arg2
+    If 1 {exists} = "false"
+        Variable Set arg2 3600
+    Chat Send "OK {arg1}, go and stand in the corner and consider what you've done 🙅 Timeout {arg1} for {arg2} seconds ⏲"
+    Twitch Timeout {arg1} {arg2}
+
+OnCommand b 0 !ban
+    Param Exists arg1
+    If 2 {exists} = "false"
+        Chat Send "{command} requires a user to wallop with the ban hammer 🤦"
+        Exit
+    API GET "https://decapi.me/twitch/id/{arg1}"
+    If 2 {api_data} = "error"
+        Chat Send "{command} failed while using DecAPI to lookup the user ⚠"
+        Exit
+    Function 'return {not_found: [api_data].includes("User not found")}'
+    If 2 {not_found} = "true"
+        Chat Send "{command} could not find the user {arg1} 🥷"
+        Exit
+    Chat Send "OK {arg1}, you're out of here 🙅 Banning {arg1} ⛔"
+    Twitch Ban {arg1}
+
+OnCommand b 0 !unban !untimeout
+    Param Exists arg1
+    If 2 {exists} = "false"
+        Chat Send "{command} requires a user to redeem 🤦"
+        Exit
+    API GET "https://decapi.me/twitch/id/{arg1}"
+    If 2 {api_data} = "error"
+        Chat Send "{command} failed while using DecAPI to lookup the user ⚠"
+        Exit
+    Function 'return {not_found: [api_data].includes("User not found")}'
+    If 2 {not_found} = "true"
+        Chat Send "{command} could not find the user {arg1} 🥷"
+        Exit
+    Chat Send "OK {arg1}, try and behave this time 🙆 Unbanning {arg1} 🟢"
+    Twitch Unban {arg1}
+
+OnCommand b 0 !block
+    Param Exists arg1
+    If 2 {exists} = "false"
+        Chat Send "{command} requires a user 🤦"
+        Exit
+    API GET "https://decapi.me/twitch/id/{arg1}"
+    If 2 {api_data} = "error"
+        Chat Send "{command} failed while using DecAPI to lookup the user ⚠"
+        Exit
+    Function 'return {not_found: [api_data].includes("User not found")}'
+    If 2 {not_found} = "true"
+        Chat Send "{command} could not find the user {arg1} 🥷"
+        Exit
+    Chat Send "OK {arg1}, tell it to the hand 🤚 the face ain't listening 🙉 You're blocked ⛔"
+    Twitch Block {arg1}
+
+OnCommand b 0 !unblock
+    Param Exists arg1
+    If 2 {exists} = "false"
+        Chat Send "{command} requires a user allow back into the circle 🤦"
+        Exit
+    API GET "https://decapi.me/twitch/id/{arg1}"
+    If 2 {api_data} = "error"
+        Chat Send "{command} failed while using DecAPI to lookup the user ⚠"
+        Exit
+    Function 'return {not_found: [api_data].includes("User not found")}'
+    If 2 {not_found} = "true"
+        Chat Send "{command} could not find the user {arg1} 🥷"
+        Exit
+    Chat Send "OK {arg1}, try and behave this time 🙆 Unblocking {arg1} 🟢"
+    Twitch Unblock {arg1}
+
+OnCommand b 0 !mod
+    Param Exists arg1
+    If 2 {exists} = "false"
+        Chat Send "{command} requires a user to add to the moderators 🤦"
+        Exit
+    API GET "https://decapi.me/twitch/id/{arg1}"
+    If 2 {api_data} = "error"
+        Chat Send "{command} failed while using DecAPI to lookup the user ⚠"
+        Exit
+    Function 'return {not_found: [api_data].includes("User not found")}'
+    If 2 {not_found} = "true"
+        Chat Send "{command} could not find the user {arg1} 🥷"
+        Exit
+    Chat Send "OK {arg1}, you have the p-o-w-e-r! ⚔ Making {arg1} a moderator 👮"
+    Twitch Mod {arg1}
+
+OnCommand b 0 !unmod
+    Param Exists arg1
+    If 2 {exists} = "false"
+        Chat Send "{command} requires a user to remove from the moderators 🤦"
+        Exit
+    API GET "https://decapi.me/twitch/id/{arg1}"
+    If 2 {api_data} = "error"
+        Chat Send "{command} failed while using DecAPI to lookup the user ⚠"
+        Exit
+    Function 'return {not_found: [api_data].includes("User not found")}'
+    If 2 {not_found} = "true"
+        Chat Send "{command} could not find the user {arg1} 🥷"
+        Exit
+    Chat Send "OK {arg1}, your badge is being revoked 📛 Removing moderator status."
+    Twitch Unmod {arg1}
+
+OnCommand b 0 !vip
+    Param Exists arg1
+    If 2 {exists} = "false"
+        Chat Send "{command} requires a user to elevate 🤦"
+        Exit
+    API GET "https://decapi.me/twitch/id/{arg1}"
+    If 2 {api_data} = "error"
+        Chat Send "{command} failed while using DecAPI to lookup the user ⚠"
+        Exit
+    Function 'return {not_found: [api_data].includes("User not found")}'
+    If 2 {not_found} = "true"
+        Chat Send "{command} could not find the user {arg1} 🥷"
+        Exit
+    Chat Send "OK {arg1}, you're special 🦄 Making {arg1} a VIP 🍸"
+    Twitch VIP {arg1}
+
+OnCommand b 0 !unvip
+    Param Exists arg1
+    If 2 {exists} = "false"
+        Chat Send "{command} requires a user to remove from the club 🤦"
+        Exit
+    API GET "https://decapi.me/twitch/id/{arg1}"
+    If 2 {api_data} = "error"
+        Chat Send "{command} failed while using DecAPI to lookup the user ⚠"
+        Exit
+    Function 'return {not_found: [api_data].includes("User not found")}'
+    If 2 {not_found} = "true"
+        Chat Send "{command} could not find the user {arg1} 🥷"
+        Exit
+    Chat Send "OK {arg1}, what did you do! You're no longer special around here. Revoking VIP status 🥾"
+    Twitch UnVIP {arg1}
+
+OnCommand e 120 !mods
+    List Empty Mods
+    Twitch Mods
+    Loop 1 {mod_count}
+    List Add Mods {mod{loop}}
+    List Join Mods " "
+    Chat Send "Behave yourself {user}! 😇 We have a crack team of moderators keeping order around here 🛡 Meet our heroes: {joined} 🦸"
+
+OnCommand e 120 !vips
+    List Empty Vips
+    Twitch VIPs
+    Loop 1 {vip_count}
+    List Add Vips {vip{loop}}
+    List Join Vips " "
+    Chat Send "You asked {user}, so here are the VIPs you can find in the lounge: {joined} 🍸️"
+
+OnCommand b 0 !streams
+    List Empty Streams
+    Twitch Streams
+    Loop 1 {stream_count}
+    List Add Streams {stream{loop}}
+    List Join Streams " "
+    Chat Send "Here are the streamers that Wimpy followers who are currently live: {joined} 📡"
+
+OnCommand b 0 !raid
+    Param Exists arg1
+    If 2 {exists} = "false"
+        Chat Send "{command} requires a user to go and raid 🤦"
+        Exit
+    If 2 {arg1} == "cancel" or {arg1} == "stop" or {arg1} == "end" or {arg1} == "halt" or {arg1} == "quit"
+        Twitch Unraid
+        Exit
+    API GET "https://decapi.me/twitch/id/{arg1}"
+    If 2 {api_data} = "error"
+        Chat Send "{command} failed while using DecAPI to lookup the user ⚠"
+        Exit
+    Function 'return {not_found: [api_data].includes("User not found")}'
+    If 2 {not_found} = "true"
+        Chat Send "{command} could not find the user {arg1} 🥷"
+        Exit
+    Twitch Raid {arg1}
+
+OnCommand b 0 !unraid
+    Twitch Unraid
+
+OnCommand b 0 !clips
+    Param Exists arg1
+    If 2 {exists} = "false"
+        Chat Send "{command} requires a user to play clips from 🤦"
+        Exit
+    API GET "https://decapi.me/twitch/id/{arg1}"
+    If 2 {api_data} = "error"
+        Chat Send "{command} failed while using DecAPI to lookup the user ⚠"
+        Exit
+    Function 'return {not_found: [api_data].includes("User not found")}'
+    If 2 {not_found} = "true"
+        Chat Send "{command} could not find the user {arg1} 🥷"
+        Exit
+    Twitch ClipsByUser {arg1} 50
+    Random Number 1 {clip_count}
+    function 'var temp=[clip{number}].split("/").slice(-1);var url="https://clips.twitch.tv/embed?autoplay=true&clip="+temp+"&controls=false&parent=streamernews.example.com";return {url:url};'
+    OBS Source "Twitch Clip" URL "{url}"
+    OBS SceneSource "[O] Alerts" "Twitch Clip" on
+    Param Add duration{number} 2
+    Delay {duration{number}}
+    OBS SceneSource "[O] Alerts" "Twitch Clip" off
+    OBS Source "Twitch Clip" URL ""

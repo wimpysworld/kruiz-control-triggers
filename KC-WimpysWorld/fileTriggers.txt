@@ -1,0 +1,4 @@
+wimpy.txt
+dec-api.txt
+twitch-channelpoints.txt
+obs-automation.txt

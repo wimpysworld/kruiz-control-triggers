@@ -1,0 +1,133 @@
+OnAction Drop
+    OBS SceneSource "[O] Games" "Hint" on
+    Random Number 1 3
+    Delay {number}
+    Chat Send "!drop"
+    Random Number 2 5
+    Delay {number}
+    Chat Send "You can join in the game by typing !drop in chat 🪂 You get one drop per game ⏱️ Closest to the target 🎯 wins the round 🏆"
+
+OnOBSTransitionTo "Starting"
+    Variable Global Load twitchUser
+    If {from} = "Intro"
+        Twitch ClearChat
+        OBS Refresh "Chat BotRix"
+        OBS Refresh "Chat LivePush"
+        OBS Refresh "Chat Twitch"
+        Delay 5
+        Chat Send "Hello 👋 Linux 🐧 Lovers 💖"
+        Delay 5
+        Chat Send "Who will be first today? 🔮"
+        Delay 5
+        Action Drop
+        Delay 15
+        Chat Send "Running some adverts while everyone finds their seats 💺 This helps prevent new viewers from being greeted by ads once the stream is up 💝"
+        Twitch Commercial 120
+        Delay 5
+        List Empty Emotes
+        Twitch Emotes
+        Loop 1 {emote_count}
+        List Add Emotes {emote{loop}}
+        List Join Emotes " "
+        Chat Send "Use your Amazon Prime free sub 🤑 to get this stream advert free and access to these fugly emotes {joined}"
+
+OnOBSTransitionTo "Intro"
+    OBS Source "2 Mic" Filter "Mute Audio" off
+    OBS SceneSource "[O] Games" "Hint" off
+
+OnOBSTransitionTo "Outro"
+    OBS Source "2 Mic" Filter "Mute Audio" on
+    If 1 {from} = "Ending"
+        Chat Send "Thank you all for coming 🙇 I'll see you next time 👍"
+
+OnOBSTransitionTo *
+    If 1 {from} = "Outro"
+        OBS Source "2 Mic" Filter "Mute Audio" off
+
+OnOBSStreamStopped
+    Delay 30
+    Twitch Title "Offline | There will be more Linux 🐧 chat, development 🧑‍💻 and gaming 🎮 soon. Check https://wimpysworld.com for details"
+
+OnOBSTransitionTo "Dev PanicRoom"
+    Twitch ClearChat
+    Twitch Marker "Entered the Panic Room"
+    OBS SceneSource "[O] Alerts" "Panic Lights Bottom" on
+    OBS SceneSource "[O] Alerts" "Panic Lights Top" on
+    Twitch Announcement "🚨 Panic Room 🚨" orange
+    Twitch Followers 60
+    Twitch Slow
+    Twitch UniqueChat
+    Delay 0.4
+    OBS Source "Dev Main" Filter "RGB levels" on
+    Chat Send "Just running a short advert to annoy the spammers 🤣"
+    Twitch Commercial 30
+
+OnOBSTransitionTo *
+    If 11 {from} = "Dev PanicRoom"
+        Twitch Marker "Leaving the Panic Room"
+        OBS SceneSource "[O] Alerts" "Panic Lights Bottom" off
+        OBS SceneSource "[O] Alerts" "Panic Lights Top" off
+        Twitch Announcement "💬 Normal Chat Restored" green
+        Twitch FollowersOff
+        Twitch SlowOff
+        Twitch UniqueChatOff
+        Delay 0.4
+        OBS Source "Dev Main" Filter "RGB levels" off
+        Delay 5
+        Chat Send "OK, panic over 😅 Keep calm and carry on 🎉"
+
+OnMessage Break
+    Chat Send "Taking a quick break to make a cuppa ☕️"
+    Delay 10
+    Action Drop
+    Delay 15
+    Chat Send "Just running a short advert while the kettle boils 🫖"
+    Twitch Commercial 30
+
+OnOBSSwitchScenes Break
+    Message Send Break
+
+OnMessage "Problem"
+    Chat Send "Erk! We have some technical difficulties. Back in a sec... 🔨"
+    Delay 10
+    Action Drop
+    Delay 15
+    Chat Send "Just running a short advert while I figure out what's wrong 😰"
+    Twitch Commercial 30
+
+OnOBSSwitchScenes Problem
+    Message Send "Problem"
+
+OnOBSTransitionTo *
+    If 3 {from} = "Break"
+        Delay 2.5
+        Chat Send "OK, break is over. Let's get to it! 🧑‍💻"
+        Exit
+    If 3 {from} = "Problem"
+        Delay 2.5
+        Chat Send "Phew! 😅 Let's hope that fixed it 🩹"
+        Exit
+
+OnCommand b 0 !break
+    OBS Scene Break
+
+OnCommand b 0 !problem
+    OBS Scene Problem
+
+OnCommand b 0 !panicroom !panic !hateraid
+    OBS Scene "Dev PanicRoom"
+
+OnCommand b 0 !panicover !calm !calmdown !main
+    OBS Scene "Dev Main"
+
+OnCommand b 0 !code
+    OBS Scene "Dev Code"
+
+OnCommand b 0 !cap !capture
+    OBS Scene "Dev Cap"
+
+OnCommand b 0 !overhead !over
+    OBS Scene "Dev Overhead"
+
+OnCommand b 0 !phone
+    OBS Scene "Dev Phone"

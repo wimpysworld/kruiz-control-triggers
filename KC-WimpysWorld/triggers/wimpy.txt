@@ -1,0 +1,31 @@
+OnInit
+    Chat Send "What was that? 👂️"
+
+OnCommand b 0 !kcreset !bonk
+    Reset
+
+OnCommand b 0 !ping
+    Delay 3
+    Chat Send "Pong"
+
+OnCommand b 0 !w !whisper
+    #Variable Load twitchUser
+    Param Exists arg1
+    If 2 {exists} = "false"
+        Chat Send "{command} requires a user to message quietly 🤦"
+        Exit
+    API GET "https://decapi.me/twitch/id/{arg1}"
+    If 2 {api_data} = "error"
+        Error "DecAPI failed while running {action_name}"
+        Exit
+    Function 'return {not_found: [api_data].includes("User not found")}'
+    If 2 {not_found} = "true"
+        Chat Send "{command} could not find the user {arg1} 🥷"
+        Exit
+    Variable Set to_user {arg1}
+    # Remove arg1 from after to derive the message
+    Function 'return {message: [after].trim().replace("{arg1}","")}'
+    If 2 {message} = ""
+        Chat Send "You need to tell me what message to {command} 🤦"
+        Exit
+    Chat Whisper "{to_user}" "{message}"

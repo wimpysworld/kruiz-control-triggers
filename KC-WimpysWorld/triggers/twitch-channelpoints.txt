@@ -1,0 +1,367 @@
+# Words
+
+# in1 - The Source {reward} to show/hide
+# in2 - The user {user} name to overlay
+# in3 - The message {message}
+OnAction WordAnimation
+    OBS SceneSource "[M] Words" "{in1}" on
+    Delay 5
+    OBS SceneSource "[M] Words" "{in1}" off
+
+OnTWChannelPoint "Ha Ha Ha"
+    WordAnimation "{reward}"
+
+OnCommand b 0 "!Ha Ha Ha" "!HaHaHa" "!hahaha" "!haha"
+    WordAnimation "Ha Ha Ha"
+
+OnTWChannelPoint "Hello"
+    WordAnimation "{reward}"
+
+OnCommand b 0 !Hello !hello
+    WordAnimation "Hello"
+
+OnTWChannelPoint "Like"
+    WordAnimation "{reward}"
+
+OnCommand b 0 !Like !like
+    WordAnimation "Like"
+
+OnTWChannelPoint "Merry Xmas"
+    WordAnimation "{reward}"
+
+OnCommand b 0 "!Merry Xmas" !Merry-Xmas !MerryXmas !merry-xmas !merryxmas !xmas
+    WordAnimation "Merry Xmas"
+
+OnTWChannelPoint "Noooo"
+    WordAnimation "{reward}"
+
+OnCommand b 0 !Noooo !noooo !Noo !noo !Nooo !nooo !No !no
+    WordAnimation "Noooo"
+
+OnTWChannelPoint "OMG"
+    WordAnimation "{reward}"
+
+OnCommand b 0 !OMG !omg
+    WordAnimation "OMG"
+
+OnTWChannelPoint "Oooow"
+    WordAnimation "{reward}"
+
+OnCommand b 0 !Oooow !oooow !Ooow !ooow !Oow !oow !Ow !ow
+    WordAnimation "Oooow"
+
+OnTWChannelPoint "Oops"
+    WordAnimation "{reward}"
+
+OnCommand b 0 !Ooops !ooops !Oops !oops !Ops !ops
+    WordAnimation "Ooops"
+
+OnTWChannelPoint "Please"
+    WordAnimation "{reward}"
+
+OnCommand b 0 !Please !please
+    WordAnimation "Please"
+
+OnTWChannelPoint "Sorry"
+    WordAnimation "{reward}"
+
+OnCommand b 0 !Sorry !sorry
+    WordAnimation "Sorry"
+
+OnTWChannelPoint "Uhhh"
+    WordAnimation "{reward}"
+
+OnCommand b 0 !Uhhh !uhhh !Uhh !uhh !Uh !uh
+    WordAnimation "Uhhh"
+
+OnTWChannelPoint "What"
+    WordAnimation "{reward}"
+
+OnCommand b 0 !What !what !Wat !wat
+    WordAnimation "What"
+
+OnTWChannelPoint "Wow"
+    WordAnimation "{reward}"
+
+OnCommand b 0 !WOW !Wow !wow
+    WordAnimation "Wow"
+
+OnTWChannelPoint "Yeah"
+    WordAnimation "{reward}"
+
+OnCommand b 0 !Yeah !yeah
+    WordAnimation "Yeah"
+
+# Animations
+
+OnAction ChannelHop
+    OBS SceneSource "[M] All animations" "Channel Hop" on
+    Delay 10
+    OBS SceneSource "[M] All animations" "Channel Hop" off
+
+OnTWChannelPoint "Channel Hop"
+    Action ChannelHop
+
+OnCommand b 0 !channelhop
+    Action ChannelHop
+
+OnAction ChelseaCucumber
+    OBS SceneSource "[M] All animations" "Cucumbers" on
+    Delay 0.5
+    OBS SceneSource "[M] All animations" "Face Circle Green" on
+    Delay 10.5
+    OBS SceneSource "[M] All animations" "Face Circle Green" off
+    Delay 0.5
+    OBS SceneSource "[M] All animations" "Cucumbers" off
+
+OnTWChannelPoint "Chelsea Cucumber"
+    Action ChelseaCucumber
+
+OnCommand b 0 !cc
+    Action ChelseaCucumber
+
+OnAction ChristmasTree
+    OBS SceneSource "[M] All animations" "Christmas Wrapping" on
+    Delay 1.5
+    OBS SceneSource "[M] All animations" "Christmas Tree" on
+    OBS SceneSource "[M] All animations" "Stocking" on
+    OBS SceneSource "[M] All animations" "Baubles" on
+    Delay 0.5
+    OBS SceneSource "[M] All animations" "Santa" on
+    Delay 1.75
+    OBS SceneSource "[M] All animations" "Christmas Wrapping" off
+    Delay 8
+    OBS SceneSource "[M] All animations" "Snow" on
+    OBS SceneSource "[M] All animations" "Santa" off
+    Delay 19
+    OBS SceneSource "[M] All animations" "Snow" off
+    OBS SceneSource "[M] All animations" "Christmas Tree" off
+    OBS SceneSource "[M] All animations" "Baubles" off
+    OBS SceneSource "[M] All animations" "Stocking" off
+
+OnTWChannelPoint "Christmas Tree"
+    Action ChristmasTree
+
+OnCommand b 0 !christmastree !xmastree !santa
+    Action ChristmasTree
+
+OnAction DeepThought
+    OBS SceneSource "[M] All animations" "Deep Thought" on
+    Delay 20
+    OBS SceneSource "[M] All animations" "Deep Thought" off
+
+OnTWChannelPoint "Deep Thought"
+    Action DeepThought
+
+OnCommand b 0 !deepthought !thinking !think
+    Action DeepThought
+
+OnAction Fireball
+    OBS SceneSource "[M] All animations" "Fireball" on
+    Delay 7
+    OBS SceneSource "[M] All animations" "Fireball" off
+
+OnTWChannelPoint "Fireball"
+    Action Fireball
+
+OnCommand b 0 !fireball !fire
+    Action Fireball
+
+OnAction Keys
+    OBS SceneSource "[M] All animations" "Hand Over the Keys" on
+    Delay 8
+    OBS SceneSource "[M] All animations" "Hand Over the Keys" off
+
+OnTWChannelPoint "Hand Over the Keys"
+    Action Keys
+
+OnCommand b 0 !handoverthekeys !handoverkeys !keys
+    Action Keys
+
+OnTWChannelPoint "Interference"
+    OBS SceneSource "[M] All animations" "Interference" on
+    Delay 10
+    OBS SceneSource "[M] All animations" "Interference" off
+
+OnAction Kraken
+    OBS SceneSource "[M] All animations" "Kraken" on
+    Delay 10
+    Chat Send "I love GitKraken 🥰 You could love it too 💖 Here's a cheeky referral link https://www.gitkraken.com/invite/ieih1QR3 😉"
+    Delay 10
+    OBS SceneSource "[M] All animations" "Kraken" off
+
+OnTWChannelPoint "Kraken"
+    Action Kraken
+
+OnCommand b 0 !kraken !gitkraken
+    Action Kraken
+
+OnAction LoveIt
+    OBS SceneSource "[M] All animations" "Love It" on
+    Delay 15
+    OBS SceneSource "[M] All animations" "Love It" off
+
+OnTWChannelPoint "Love It"
+    Action LoveIt
+
+OnCommand b 0 !loveit !hearts
+    Action LoveIt
+
+OnAction OhBalls
+    OBS SceneSource "[M] All animations" "Oh Balls" on
+    Delay 8
+    OBS SceneSource "[M] All animations" "Oh Balls" off
+
+OnTWChannelPoint "Oh Balls"
+    Action OhBalls
+
+OnCommand b 0 !ohballs !balls
+    Action OhBalls
+
+
+OnSETwitchBits
+    Variable Load TwitchUptime
+    If 1 {amount} > 1
+        Chat Send "Thanks @{user} for the {amount} bits 🤑"
+    If 14 {amount} > 50
+        OBS SceneSource "[O] Alerts" "Trigger Bits" on
+        OBS SceneSource "[O] Alerts" "Cheering Sound" on
+        OBS SceneSource "[O] Alerts" "Cheering Crowd" on
+        OBS SceneSource "[O] Alerts" "Golden confetti" on
+        Delay 4.5
+        If 1 {TwitchUptime} > 0
+            Chat Whisper "{user}" "Thanks for the {amount} bits 🤑"
+        Delay 4.5
+        OBS SceneSource "[O] Alerts" "Trigger Bits" off
+        OBS SceneSource "[O] Alerts" "Cheering Sound" off
+        OBS SceneSource "[O] Alerts" "Cheering Crowd" off
+        OBS SceneSource "[O] Alerts" "Golden confetti" off
+        if {message} != ""
+            Chat Send "Here's some wise 🦉 words from {user}: {message}"
+
+OnSEDonation
+    Variable Load TwitchUptime
+    If {amount} > 1
+        Chat Send "Thank you @{user} for the kind donation 🙇"
+        OBS SceneSource "[O] Alerts" "Trigger Donation" on
+        OBS SceneSource "[O] Alerts" "Cheering Sound" on
+        OBS SceneSource "[O] Alerts" "Cheering Crowd" on
+        OBS SceneSource "[O] Alerts" "Golden confetti" on
+        Delay 4.5
+        If 1 {TwitchUptime} > 0
+            Chat Whisper "{user}" "Thank you for the kind donation 🙇"
+        Delay 4.5
+        OBS SceneSource "[O] Alerts" "Trigger Donation" off
+        OBS SceneSource "[O] Alerts" "Cheering Sound" off
+        OBS SceneSource "[O] Alerts" "Cheering Crowd" off
+        OBS SceneSource "[O] Alerts" "Golden confetti" off
+        If 1 {message} != ""
+            Chat Send "{user} has this mind-blowing 🤯 message for you all: {message}"
+
+OnSETwitchFollow
+    Variable Load TwitchUptime
+    Chat Send "Thanks for the follow @{user}. Welcome to the channel! 🐧"
+    OBS SceneSource "[O] Alerts" "Trigger Follow" on
+    OBS SceneSource "[O] Alerts" "Cheering Sound" on
+    OBS SceneSource "[O] Alerts" "Cheering Crowd" on
+    OBS SceneSource "[O] Alerts" "Golden confetti" on
+    OBS SceneSource "[O] Alerts" "Goals Twitch" on
+    Delay 4.5
+    If 1 {TwitchUptime} > 0
+        Chat Whisper "{user}" "Thanks for following my channel 🐧"
+    Delay 4.5
+    OBS SceneSource "[O] Alerts" "Trigger Follow" off
+    OBS SceneSource "[O] Alerts" "Cheering Sound" off
+    OBS SceneSource "[O] Alerts" "Cheering Crowd" off
+    OBS SceneSource "[O] Alerts" "Golden confetti" off
+    OBS SceneSource "[O] Alerts" "Goals Twitch" off
+    Chat Send "Please give {user} a warm welcome 🤗"
+
+OnSETwitchGiftSub
+    Variable Load TwitchUptime
+    Chat Send "A big thank you 🙇 to @{gifter} for gifting a {tier} sub to {user} 🎁"
+    OBS SceneSource "[O] Alerts" "Trigger Sub" on
+    OBS SceneSource "[O] Alerts" "Cheering Sound" on
+    OBS SceneSource "[O] Alerts" "Cheering Crowd" on
+    OBS SceneSource "[O] Alerts" "Confetti Explosion" on
+    OBS SceneSource "[O] Alerts" "Heart with Hands" on
+    Delay 5
+    If 1 {TwitchUptime} > 0
+        Chat Whisper "{user}" "A big thank you 🙇 for gifting a {tier} sub to {user} 🎁"
+    Delay 5
+    OBS SceneSource "[O] Alerts" "Trigger Sub" off
+    OBS SceneSource "[O] Alerts" "Cheering Sound" off
+    OBS SceneSource "[O] Alerts" "Cheering Crowd" off
+    OBS SceneSource "[O] Alerts" "Confetti Explosion" off
+    OBS SceneSource "[O] Alerts" "Heart with Hands" off
+    Chat Send "@{user} make sure you say thanks to {gifter} 🖖"
+
+OnSETwitchHost
+    Variable Load TwitchUptime
+    If 1 {viewers} >= 1
+        Chat Send "Thanks for hosting us @{user} 📺 and bringing {viewers} viewers with you 💪"
+    If 14 {viewers} >= 2
+        OBS SceneSource "[O] Alerts" "Trigger Host" on
+        OBS SceneSource "[O] Alerts" "Cheering Sound" on
+        OBS SceneSource "[O] Alerts" "Cheering Crowd" on
+        Delay 5
+        If 1 {TwitchUptime} > 0
+            Chat Whisper "{user}" "Thanks for hosting 📺 my stream and bringing {viewers} viewers with you 💪"
+        Chat Send "Give the {viewers} new viewers a wave 👋"
+        Delay 5
+        OBS SceneSource "[O] Alerts" "Trigger Host" off
+        OBS SceneSource "[O] Alerts" "Cheering Sound" off
+        OBS SceneSource "[O] Alerts" "Cheering Crowd" off
+        API Get https://decapi.me/twitch/game/{user}
+        Variable Set game {api_data}
+        Chat Send "You can find {user} at https://twitch.tv/{user} where they were last streaming {game} 👀"
+
+OnSETwitchRaid
+    Variable Load TwitchUptime
+    If 1 {raiders} >= 1
+        Chat Send "Heads up! 🪖 We're being raided by @{user} with a raiding party of {raiders} 🦾"
+    If 23 {raiders} >= 2
+        OBS SceneSource "[O] Alerts" "Trigger Raid" on
+        OBS SceneSource "[O] Alerts" "Cheering Sound" on
+        OBS SceneSource "[O] Alerts" "Police Lights" on
+        OBS SceneSource "[O] Alerts" "Confetti Explosion" on
+        OBS SceneSource "[O] Alerts" "Thumbs Up" on
+        API Get https://decapi.me/twitch/followcount/wimpysworld
+        Variable Set followcount {api_data}
+        API Get https://decapi.me/twitch/title/wimpysworld
+        Variable Set title {api_data}
+        Chat Send "Today's topic is: {title} Give us a follow and join the other {followcount} Linux 🐧 Lovers 💖"
+        Delay 5
+        If 1 {TwitchUptime} > 0
+            Chat Whisper "{user}" "Thank you for raiding my stream and bringing {raiders} with you 🦾"
+        Chat Send "Welcome raiders! If you like a little bit of Linux 🐧 in your life, then you're among friends! 🤗"
+        Delay 5
+        OBS SceneSource "[O] Alerts" "Trigger Raid" off
+        OBS SceneSource "[O] Alerts" "Cheering Sound" off
+        OBS SceneSource "[O] Alerts" "Police Lights" off
+        OBS SceneSource "[O] Alerts" "Confetti Explosion" off
+        OBS SceneSource "[O] Alerts" "Thumbs Up" off
+        API Get https://decapi.me/twitch/game/{user}
+        Variable Set game {api_data}
+        Chat Send "Hey, look! It's {user}! 👀 You can find them at https://twitch.tv/{user} where they were last streaming {game} 📡"
+
+OnSETwitchSub
+    Variable Load TwitchUptime
+    Chat Send "Thank you @{user} for the {tier} sub! 🫶"
+    OBS SceneSource "[O] Alerts" "Trigger Sub" on
+    OBS SceneSource "[O] Alerts" "Cheering Sound" on
+    OBS SceneSource "[O] Alerts" "Cheering Crowd" on
+    OBS SceneSource "[O] Alerts" "Confetti Explosion" on
+    OBS SceneSource "[O] Alerts" "Heart with Hands" on
+    Delay 5
+    If 1 {TwitchUptime} > 0
+        Chat Whisper "{user}" "Thank you for the {months} month {tier} sub 🫶"
+    Chat Send "{user} as a subscriber, you'll now get this stream advert free! 🥳"
+    Delay 5
+    OBS SceneSource "[O] Alerts" "Trigger Sub" off
+    OBS SceneSource "[O] Alerts" "Cheering Sound" off
+    OBS SceneSource "[O] Alerts" "Cheering Crowd" off
+    OBS SceneSource "[O] Alerts" "Confetti Explosion" off
+    OBS SceneSource "[O] Alerts" "Heart with Hands" off
+    #if {message} != ""
+    #    Chat Send "As a {months} month subscriber, {user} would like you to consider 🤔 the following: {message}"

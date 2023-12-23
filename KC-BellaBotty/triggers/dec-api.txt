@@ -1,0 +1,202 @@
+OnInit
+    Variable Set "YouTubeChannel" "UChpYmMp7EFaxuogUX1eAqyw"
+    Variable Set "TwitchChannel" "WimpysWorld"
+    Message Send DecApiUpdate
+
+# DecAPI
+
+OnCommand b 0 !kadgar !kbmod !multistream !multistre.am !multitwitch
+    Action DecApiTwitchMultiStream {command} {user} {after}
+
+OnAction DecApiTwitchMultiStream
+    Params Exists {in3}
+    if 2 {exists} = false
+        Chat Send "I need to know who you are multi-streaming with 🤦"
+        Exit
+    Variable Set service {in1}
+    List Empty Streamers
+    List Add Streamers {in2}
+    List Add Streamers {in3}
+    List Join Streamers " "
+    Function 'return {streams: encodeURIComponent([joined])}'
+    API GET "https://decapi.me/twitch/multi?streams={streams}&service={service}"
+    If 2 {api_data} = "error"
+        Chat Send "DecAPI failed to create a multistream link 😭"
+        Exit
+    Chat Send "We are multi-party 🥳 streaming here 👉 {api_data}"
+
+OnMessage DecApiTwitchFollowCount
+    Variable Load TwitchChannel
+    API Get "https://decapi.me/twitch/followcount/{TwitchChannel}"
+    If 2 {api_data} = "error"
+        Error "DecAPI failed to get TwitchFollowCount"
+        Exit
+    Variable Set TwitchFollowCount {api_data}
+
+OnMessage DecApiTwitchGame
+    Variable Load TwitchChannel
+    API Get "https://decapi.me/twitch/game/{TwitchChannel}"
+    If 2 {api_data} = "error"
+        Error "DecAPI failed to get TwitchGame"
+        Exit
+    Variable Set TwitchGame {api_data}
+
+OnMessage DecApiTwitchHighlight
+    Variable Load TwitchChannel
+    API Get "https://decapi.me/twitch/highlight/{TwitchChannel}"
+    If 2 {api_data} = "error"
+        Error "DecAPI failed to get TwitchHighlight"
+        Exit
+    Variable Set TwitchHighlight {api_data}
+
+OnMessage DecApiTwitchRandomSub
+    Variable Load TwitchChannel
+    API Get "https://decapi.me/twitch/random_sub/{TwitchChannel}"
+    If 2 {api_data} = "error"
+        Error "DecAPI failed to get TwitchRandomSub"
+        Exit
+    Variable Set TwitchRandomSub {api_data}
+
+OnMessage DecApiTwitchSubCount
+    Variable Load TwitchChannel
+    API Get "https://decapi.me/twitch/subcount/{TwitchChannel}"
+    If 2 {api_data} = "error"
+        Error "DecAPI failed to get TwitchSubCount"
+        Exit
+    Variable Set TwitchSubCount {api_data}
+
+OnMessage DecApiTwitchSubPoints
+    Variable Load TwitchChannel
+    API Get "https://decapi.me/twitch/subpoints/{TwitchChannel}"
+    If 2 {api_data} = "error"
+        Error "DecAPI failed to get TwitchSubPoints"
+        Exit
+    Variable Set TwitchSubPoints {api_data}
+
+OnMessage DecApiTwitchSubEmotes
+    Variable Load TwitchChannel
+    API Get "https://decapi.me/twitch/subscriber_emotes/{TwitchChannel}"
+    If 2 {api_data} = "error"
+        Error "DecAPI failed to get TwitchSubEmotes"
+        Exit
+    Variable Set TwitchSubEmotes {api_data}
+
+OnMessage DecApiTwitchStatus
+    Variable Load TwitchChannel
+    API Get "https://decapi.me/twitch/status/{TwitchChannel}"
+    If 2 {api_data} = "error"
+        Error "DecAPI failed to get TwitchStatus"
+        Exit
+    Variable Set TwitchStatus {api_data}
+
+OnMessage DecApiTwitchTitle
+    Variable Load TwitchChannel
+    API Get "https://decapi.me/twitch/title/{TwitchChannel}"
+    If 2 {api_data} = "error"
+        Error "DecAPI failed to get TwitchTitle"
+        Exit
+    Variable Set TwitchTitle {api_data}
+
+OnMessage DecApiTwitchTotalViews
+    Variable Load TwitchChannel
+    API Get "https://decapi.me/twitch/total_views/{TwitchChannel}"
+    If 2 {api_data} = "error"
+        Error "DecAPI failed to get TwitchTotalViews"
+        Exit
+    Variable Set TwitchTotalViews {api_data}
+
+OnMessage DecApiTwitchUptime
+    Variable Load TwitchChannel
+    API Get "https://decapi.me/twitch/uptime/{TwitchChannel}?offline_msg=0"
+    If 2 {api_data} = "error"
+        Error "DecAPI failed to get TwitchUptime"
+        Exit
+    Variable Set TwitchUptime {api_data}
+
+OnMessage DecApiTwitchViewerCount
+    Variable Load TwitchChannel
+    API Get "https://decapi.me/twitch/viewercount/{TwitchChannel}"
+    If 2 {api_data} = "error"
+        Error "DecAPI failed to get TwitchViewerCount"
+        Exit
+    Function 'return {offline: [api_data].includes("is offline")}'
+    If 1 {offline} = "true"
+        Variable Set api_data 0
+    Variable Set TwitchViewerCount {api_data}
+
+OnMessage DecApiTwitchVideos
+    Variable Load TwitchChannel
+    API Get "https://decapi.me/twitch/videos/{TwitchChannel}"
+    If 2 {api_data} = "error"
+        Error "DecAPI failed to get TwitchVideos"
+        Exit
+    Variable Set TwitchVideos {api_data}
+
+OnMessage DecApiTwitchVodReplay
+    Variable Load TwitchChannel
+    API Get "https://decapi.me/twitch/vod_replay/{TwitchChannel}"
+    If 2 {api_data} = "error"
+        Error "DecAPI failed to get TwitchVodReply"
+        Exit
+    Variable Set TwitchVodReplay {api_data}
+
+OnMessage DecApiYouTubeLatestVideo
+    Variable Load YouTubeChannel
+    API GET "https://decapi.me/youtube/latest_video?id={YouTubeChannel}"
+    If 2 {api_data} = "error"
+        Error "DecAPI failed to get YouTubeLatestVideo"
+        Exit
+    Variable Set YouTubeLatestVideo {api_data}
+
+OnCommand b 0 !decapi
+    Variable Load TwitchFollowCount
+    Variable Load TwitchGame
+    Variable Load TwitchHighlight
+    Variable Load TwitchRandomSub
+    Variable Load TwitchSubCount
+    Variable Load TwitchSubPoints
+    Variable Load TwitchSubEmotes
+    Variable Load TwitchStatus
+    Variable Load TwitchTitle
+    Variable Load TwitchTotalViews
+    Variable Load TwitchUptime
+    Variable Load TwitchViewerCount
+    Variable Load TwitchVideos
+    Variable Load TwitchVodReplay
+    Variable Load YouTubeLatestVideo
+    Chat Send "Twitch FollowCount: {TwitchFollowCount}"
+    Chat Send "Twitch Game: {TwitchGame}"
+    Chat Send "Twitch Highlight: {TwitchHighlight}"
+    Chat Send "Twitch RandomSub: {TwitchRandomSub}"
+    Chat Send "Twitch SubCount: {TwitchSubCount}"
+    Chat Send "Twitch SubPoints: {TwitchSubPoints}"
+    Chat Send "Twitch SubEmotes: {TwitchSubEmotes}"
+    Chat Send "Twitch Status: {TwitchStatus}"
+    Chat Send "Twitch Title: {TwitchTitle}"
+    Chat Send "Twitch TotalViews: {TwitchTotalViews}"
+    Chat Send "Twitch Uptime: {TwitchUptime}"
+    Chat Send "Twitch ViewerCount: {TwitchViewerCount}"
+    Chat Send "Twitch Videos: {TwitchVideos}"
+    Chat Send "Twitch VodReplay: {TwitchVodReplay}"
+    Chat Send "YouTube LatestVideo: {YouTubeLatestVideo}"
+
+OnMessage DecApiUpdate
+    Message Send DecApiTwitchFollowCount
+    Message Send DecApiTwitchGame
+    Message Send DecApiTwitchHighlight
+    Message Send DecApiTwitchRandomSub
+    Message Send DecApiTwitchSubCount
+    Message Send DecApiTwitchSubPoints
+    Message Send DecApiTwitchSubEmotes
+    Message Send DecApiTwitchStatus
+    Message Send DecApiTwitchTitle
+    Message Send DecApiTwitchTotalViews
+    Message Send DecApiTwitchUptime
+    Message Send DecApiTwitchViewerCount
+    Message Send DecApiTwitchVideos
+    Message Send DecApiTwitchVodReplay
+    Message Send DecApiYouTubeLatestVideo
+
+# Execute every 60 seconds
+OnTimer DecApiTimer 60
+    Message Send DecApiUpdate
