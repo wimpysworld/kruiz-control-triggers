@@ -20,18 +20,18 @@ OnOBSSwitchScenes "Starting"
     Random Number 25 40
     Delay {number}
     OBS IsSceneSourceVisible "[O] Games" "Hint"
-    If 2 {is_visible} = true
+    If {is_visible} = true
         Chat Send "Geronimo! 🪂"
         Chat Send "!drop"
-    Delay 20
-    Chat Send "!droprecent"
+        Delay 15
+        Chat Send "!droprecent"
 
 OnOBSSwitchScenes "Break" "Problem"
     Random Number 15 25
     Delay {number}
     OBS IsSceneSourceVisible "[O] Games" "Hint"
-    If 2 {is_visible} = true
+    If {is_visible} = true
         Chat Send "Geronimo! 🪂"
         Chat Send "!drop"
-    Delay 20
-    Chat Send "!droprecent"
+        Delay 15
+        Chat Send "!droprecent"
