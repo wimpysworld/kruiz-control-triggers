@@ -101,7 +101,7 @@ OnOBSSwitchScenes Problem
 OnOBSTransitionTo *
     If 3 {from} = "Break"
         Delay 2.5
-        Chat Send "OK, break is over. Let's get to it! 🧑‍💻"
+        Chat Send "OK, break time is over. Let's get to it! 🧑‍💻"
         Exit
     If 3 {from} = "Problem"
         Delay 2.5
