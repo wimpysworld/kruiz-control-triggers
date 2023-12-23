@@ -1,3 +1,9 @@
 OLD/
 *.zip
 *.tar.gz
+*/js/
+*/settings/
+*/LICENSE
+*/README.md
+*/index.html
+*/logo.png
