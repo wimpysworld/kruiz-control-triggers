@@ -96,7 +96,7 @@ OnMessage "Problem"
     Twitch Commercial 30
 
 OnOBSSwitchScenes Problem
-    Message Send "Problem"
+    Message Send Problem
 
 OnOBSTransitionTo *
     If 3 {from} = "Break"
