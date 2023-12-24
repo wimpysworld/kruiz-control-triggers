@@ -114,10 +114,10 @@ OnCommand b 0 !break
 OnCommand b 0 !problem
     OBS Scene Problem
 
-OnCommand b 0 !panicroom !panic !hateraid
+OnCommand b 0 !panic !panicroom !hateraid
     OBS Scene "Dev PanicRoom"
 
-OnCommand b 0 !panicover !calm !calmdown !main
+OnCommand b 0 !main !panicover !calm !calmdown
     OBS Scene "Dev Main"
 
 OnCommand b 0 !code
