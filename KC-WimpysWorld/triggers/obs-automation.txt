@@ -1,10 +1,7 @@
 OnAction Drop
     OBS SceneSource "[O] Games" "Hint" on
-    Random Number 1 3
-    Delay {number}
     Chat Send "!drop"
-    Random Number 2 5
-    Delay {number}
+    Delay 1
     Chat Send "You can join in the game by typing !drop in chat 🪂 You get one drop per game ⏱️ Closest to the target 🎯 wins the round 🏆"
 
 OnOBSTransitionTo "Starting"
@@ -20,15 +17,16 @@ OnOBSTransitionTo "Starting"
         Chat Send "Who will be first today? 🔮"
         Delay 5
         Action Drop
-        Delay 15
+        Delay 12.5
         Chat Send "Running some adverts while everyone finds their seats 💺 This helps prevent new viewers from being greeted by ads once the stream is up 💝"
+        Delay 2.5
         Twitch Commercial 120
-        Delay 5
         List Empty Emotes
         Twitch Emotes
         Loop 1 {emote_count}
         List Add Emotes {emote{loop}}
         List Join Emotes " "
+        Delay 2.5
         Chat Send "Use your Amazon Prime free sub 🤑 to get this stream advert free and access to these fugly emotes {joined}"
 
 OnOBSTransitionTo "Intro"
@@ -45,7 +43,7 @@ OnOBSTransitionTo *
         OBS Source "2 Mic" Filter "Mute Audio" off
 
 OnOBSStreamStopped
-    Delay 30
+    Delay 5
     Twitch Title "Offline | There will be more Linux 🐧 chat, development 🧑‍💻 and gaming 🎮 soon. Check https://wimpysworld.com for details"
 
 OnOBSTransitionTo "Dev PanicRoom"
