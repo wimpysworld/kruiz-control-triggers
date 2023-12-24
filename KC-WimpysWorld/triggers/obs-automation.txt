@@ -131,3 +131,9 @@ OnCommand b 0 !overhead !over
 
 OnCommand b 0 !phone
     OBS Scene "Dev Phone"
+
+OnCommand b 0 !play
+    OBS Scene "Play Main"
+
+OnCommand b 0 !game
+    OBS Scene "Play Game"
