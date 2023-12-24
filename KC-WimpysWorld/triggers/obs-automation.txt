@@ -5,7 +5,6 @@ OnAction Drop
     Chat Send "You can join in the game by typing !drop in chat 🪂 You get one drop per game ⏱️ Closest to the target 🎯 wins the round 🏆"
 
 OnOBSTransitionTo "Starting"
-    Variable Global Load twitchUser
     If {from} = "Intro"
         Twitch ClearChat
         OBS Refresh "Chat BotRix"
