@@ -13,25 +13,21 @@ OnCommand b 0 !ping
     Play 100 nowait pong.mp3
     Chat Send "Pong"
 
+OnAction Drop
+    Chat Send "Geronimo! 🪂"
+    Chat Send "!drop"
+
 OnOBSSwitchScenes "Starting"
-    Random Number 1 5
-    Delay {number}
     Chat Send "It's happening! 🤩"
-    Random Number 25 40
+    Random Number 20 25
     Delay {number}
     OBS IsSceneSourceVisible "[O] Games" "Hint"
     If {is_visible} = true
-        Chat Send "Geronimo! 🪂"
-        Chat Send "!drop"
-        Delay 15
-        Chat Send "!droprecent"
+        Action Drop
 
 OnOBSSwitchScenes "Break" "Problem"
     Random Number 15 25
     Delay {number}
     OBS IsSceneSourceVisible "[O] Games" "Hint"
     If {is_visible} = true
-        Chat Send "Geronimo! 🪂"
-        Chat Send "!drop"
-        Delay 15
-        Chat Send "!droprecent"
+        Action Drop
