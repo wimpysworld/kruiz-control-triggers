@@ -218,7 +218,6 @@ OnTWChannelPoint "Oh Balls"
 OnCommand b 0 !ohballs !balls
     Action OhBalls
 
-
 OnSETwitchBits
     Variable Load TwitchUptime
     If 1 {amount} > 1
