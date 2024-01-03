@@ -69,7 +69,7 @@ OnCommand e 10 !accountage
 
 OnCommand e 120 !chelsea-cucumber !chelseacucumber !mate
     Chat Send "Chelsea Cucumber 🥒 is the colour of our banner! #87A556 is the primary accent colour for the premiere Linux 🐧 distribution, Ubuntu MATE 🧉 - https://ubuntu-mate.org"
-    Delay 7
+    Delay 2
     Chat Send "Hmmm, the color of my banner is #F917A7"
 
 #OnCommand e 120 !theme
@@ -80,7 +80,7 @@ OnCommand e 0 !floss
     if 1 {user} = "WimpysWorld"
         Random Number 90 100
     Chat Send "{user} is built from {number}% open source 💾"
-    Delay 23
+    Delay 2
     Chat Send "I am built entirely from open source 🦾 https://github.com/wimpysworld/kruiz-control-triggers"
 
 OnCommand e 10 !followage !howlong !followtime
@@ -100,9 +100,7 @@ OnCommand e 300 !totalviews !allviews
     Chat Send "This channel has had {TwitchTotalViews} total views 📈 I know, it's a pointless vanity metric 💄"
 
 OnCommand e 120 !os !distro
-    Chat Send "Wimpy runs the mighty 💪 Ubuntu MATE! A community-developed, Ubuntu-based operating system that beautifully integrates the MATE desktop 🧉 https://ubuntu-mate.org"
-    Delay 6
-    Chat Send "I run NixOS ❄ BTW"
+    Chat Send "Wimpy runs the sublime NixOS ❄️ BTW. And also the mighty 💪 Ubuntu MATE! A community-developed, Ubuntu-based operating system that beautifully integrates the MATE desktop 🧉 https://ubuntu-mate.org"
 
 OnCommand e 120 !job !newjob
     Chat Send "Wimpy works at Determinate Systems as Developer Relations Engineer 🧑‍💻 and is helping make Nix easier ❄ https://determinate.systems"
@@ -164,9 +162,9 @@ OnCommand e 300 !latestvideo !latest
 
 OnCommand e 180 !music !spotify !nowplaying !playing !song !beats !streambeats
     OBS SceneSource "[O] Stats" "Now Playing" on
-    Delay 10
+    Delay 5
     Chat Send "All the music 🎶 we play is from StreamBeats https://streambeats.com"
-    Delay 10
+    Delay 5
     OBS SceneSource "[O] Stats" "Now Playing" off
 
 OnCommand e 300 !twitchstats !chatstats !stats
@@ -277,12 +275,12 @@ OnCommand e 10 !lurk
 
 OnCommand e 120 !settings !specs
     Chat Send "Everything is turned up to 11 🎛 That's how we roll around here {user} 💪"
-    Delay 3
-    Chat Send "@{user} you see the the Linux 🐧 compatible gear here 👉 https://wimpysworld.io/kit"
+    Delay 1.5
+    Chat Send "@{user} you can see the Linux 🐧 compatible gear here 👉 https://wimpysworld.io/kit"
 
 OnCommand e 120 !8ball !8-ball
     Chat Send "🎱 Wait for it {user}..."
-    Delay 90
+    Delay 5
     Chat Send "Hey @{user} are you still waiting for the 8 Ball? I got bored and killed the process 🔪🩸 #sorry #notsorry"
 
 OnCommand e 120 !tip !donate
@@ -297,7 +295,7 @@ OnCommand e 120 !obs
 OnCommand e 60 !botsnack
     Play 100 nowait botsnack.mp3
     Chat Send "Nom nom nom 🍪"
-    Delay 8
+    Delay 1
     Chat Send "Have a hug {user} 🤗"
 
 OnCommand e 0 !badbot !badbella
