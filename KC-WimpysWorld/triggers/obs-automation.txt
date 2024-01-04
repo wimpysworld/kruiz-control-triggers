@@ -7,9 +7,6 @@ OnAction Drop
 OnOBSTransitionTo "Starting"
     If {from} = "Intro"
         Twitch ClearChat
-        OBS Refresh "Chat BotRix"
-        OBS Refresh "Chat LivePush"
-        OBS Refresh "Chat Twitch"
         Delay 5
         Chat Send "Hello 👋 Linux 🐧 Lovers 💖"
         Delay 5
