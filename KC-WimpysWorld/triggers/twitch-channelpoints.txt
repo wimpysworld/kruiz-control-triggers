@@ -283,7 +283,6 @@ OnSETwitchGiftSub
     OBS SceneSource "[O] Alerts" "Cheering Sound" on
     OBS SceneSource "[O] Alerts" "Cheering Crowd" on
     OBS SceneSource "[O] Alerts" "Confetti Explosion" on
-    OBS SceneSource "[O] Alerts" "Heart with Hands" on
     Delay 5
     If 1 {TwitchUptime} > 0
         Chat Whisper "{user}" "A big thank you 🙇 for gifting a {tier} sub to {user} 🎁"
@@ -292,7 +291,6 @@ OnSETwitchGiftSub
     OBS SceneSource "[O] Alerts" "Cheering Sound" off
     OBS SceneSource "[O] Alerts" "Cheering Crowd" off
     OBS SceneSource "[O] Alerts" "Confetti Explosion" off
-    OBS SceneSource "[O] Alerts" "Heart with Hands" off
     Chat Send "@{user} make sure you say thanks to {gifter} 🖖"
 
 OnSETwitchHost
@@ -324,7 +322,6 @@ OnSETwitchRaid
         OBS SceneSource "[O] Alerts" "Cheering Sound" on
         OBS SceneSource "[O] Alerts" "Police Lights" on
         OBS SceneSource "[O] Alerts" "Confetti Explosion" on
-        OBS SceneSource "[O] Alerts" "Thumbs Up" on
         API Get https://decapi.me/twitch/followcount/wimpysworld
         Variable Set followcount {api_data}
         API Get https://decapi.me/twitch/title/wimpysworld
@@ -339,7 +336,6 @@ OnSETwitchRaid
         OBS SceneSource "[O] Alerts" "Cheering Sound" off
         OBS SceneSource "[O] Alerts" "Police Lights" off
         OBS SceneSource "[O] Alerts" "Confetti Explosion" off
-        OBS SceneSource "[O] Alerts" "Thumbs Up" off
         API Get https://decapi.me/twitch/game/{user}
         Variable Set game {api_data}
         Chat Send "Hey, look! It's {user}! 👀 You can find them at https://twitch.tv/{user} where they were last streaming {game} 📡"
@@ -351,7 +347,6 @@ OnSETwitchSub
     OBS SceneSource "[O] Alerts" "Cheering Sound" on
     OBS SceneSource "[O] Alerts" "Cheering Crowd" on
     OBS SceneSource "[O] Alerts" "Confetti Explosion" on
-    OBS SceneSource "[O] Alerts" "Heart with Hands" on
     Delay 5
     If 1 {TwitchUptime} > 0
         Chat Whisper "{user}" "Thank you for the {months} month {tier} sub 🫶"
@@ -361,6 +356,5 @@ OnSETwitchSub
     OBS SceneSource "[O] Alerts" "Cheering Sound" off
     OBS SceneSource "[O] Alerts" "Cheering Crowd" off
     OBS SceneSource "[O] Alerts" "Confetti Explosion" off
-    OBS SceneSource "[O] Alerts" "Heart with Hands" off
     #if {message} != ""
     #    Chat Send "As a {months} month subscriber, {user} would like you to consider 🤔 the following: {message}"
